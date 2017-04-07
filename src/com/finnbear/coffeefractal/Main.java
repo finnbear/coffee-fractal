@@ -5,8 +5,8 @@ package com.finnbear.coffeefractal;
  */
 
 public class Main {
-    static final int width = 40000;
-    static final int height = 40000;
+    static final int width = 5000;
+    static final int height = 5000;
 
     public static void main(String[] args) {
         Timer timer = new Timer();
@@ -20,8 +20,8 @@ public class Main {
             for (int x = 0; x < width; x++) {
                 float color = getColor(x, y);
 
-                color /= 30;
-                color *= 100000;
+                color /= 25;
+                color *= 255;
 
                 imageWriter.writePixel(x, y, (int)color);
                 //imageWriter.writePixel(x, y, 255, 255, 255);
@@ -42,7 +42,7 @@ public class Main {
     }
 
     public static int getColor(int ix, int iy) {
-        int maxIterations = 30;
+        int maxIterations = 25;
         double bound = 2.0;
 
         double x = ix;
