@@ -19,6 +19,10 @@ public class ImageWriter {
     public void writePixel(int x, int y, int r, int g, int b) {
         int rgb = (r << 16) | (g << 8) | b;
 
+        writePixel(x, y, rgb);
+    }
+
+    public void writePixel(int x, int y, int rgb) {
         _bufferedImage.setRGB(x, y, rgb);
     }
 
