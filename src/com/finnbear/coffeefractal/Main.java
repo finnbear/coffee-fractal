@@ -20,8 +20,8 @@ public class Main {
             for (int x = 0; x < width; x++) {
                 float color = getColor(x, y);
 
-                color /= 25;
-                color *= (255 << 16) | (255 << 8) | 255;
+                color /= 30;
+                color *= 100000;
 
                 imageWriter.writePixel(x, y, (int)color);
                 //imageWriter.writePixel(x, y, 255, 255, 255);
@@ -42,7 +42,7 @@ public class Main {
     }
 
     public static int getColor(int ix, int iy) {
-        int maxIterations = 25;
+        int maxIterations = 30;
         double bound = 2.0;
 
         double x = ix;
