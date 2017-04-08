@@ -14,20 +14,26 @@ public class Main {
 
         ImageWriter imageWriter = new ImageWriter(width, height);
 
+        Fractal fractal = new Mandelbrot();
+
         long pixels = width * height;
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                int color1 = getColor(x, y, 200) << 16;
-                int color2 = getColor(x, y, 75) << 8;
-                int color3 = getColor(x, y, 25);
-                //color /= 25;
-                //color *= 200;
+                double fx = x / (double)width;
+                double fy = y / (double)height;
+
+                double sample1 = fractal.sample(fx, fy, 200);
+                double sample2 = fractal.sample(fx, fy, 100);
+                double sample3 = fractal.sample(fx, fy, 25);
+
+                int color1 = (int)(sample1 * 255) << 16;
+                int color2 = (int)(sample2 * 255) << 8;
+                int color3 = (int)(sample3 * 255) << 0;
 
                 int color = color1 | color2 | color3;
 
                 imageWriter.writePixel(x, y, color);
-                //imageWriter.writePixel(x, y, 255, 255, 255);
             }
 
             if (y % 1000 == 0) {
@@ -42,40 +48,5 @@ public class Main {
         long elapsedTime = timer.endTimer();
 
         System.out.println("Elapsed time: " + elapsedTime + "ms");
-    }
-
-    public static int getColor(int ix, int iy, int maxIterations) {
-        double bound = 2;
-
-        double x = ix;
-        double y = iy;
-
-        x -= width / 2;
-        y -= height / 2;
-
-        x /= width / (bound * 2);
-        y /= height / (bound * 2);
-
-        double x0 = x;
-        double y0 = y;
-
-        for (int t = 0; t < maxIterations; t++) {
-            if (Math.pow(x, 2) + Math.pow(y, 2) > Math.pow(bound, 2)) {
-                //return (255 << 16) | (255 << 8) | 255;
-                return (int)(t * (255 / (float)maxIterations));
-            }
-
-            double x1 = x;
-            double y1 = y;
-
-            x = x1 * x1 - y1 * y1;
-            y = x1 * y1 + y1 * x1;
-
-            x += x0;
-            y += y0;
-        }
-
-        //return 0;
-        return 255;
     }
 }
