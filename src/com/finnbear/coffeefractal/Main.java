@@ -5,8 +5,8 @@ package com.finnbear.coffeefractal;
  */
 
 public class Main {
-    static final int width = 12800;
-    static final int height = 12800;
+    static final int width = 45000;
+    static final int height = 45000;
 
     public static void main(String[] args) {
         Timer timer = new Timer();
@@ -18,12 +18,15 @@ public class Main {
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                float color = getColor(x, y);
+                int color1 = getColor(x, y, 200) << 16;
+                int color2 = getColor(x, y, 75) << 8;
+                int color3 = getColor(x, y, 25);
+                //color /= 25;
+                //color *= 200;
 
-                color /= 25;
-                color *= 200;
+                int color = color1 | color2 | color3;
 
-                imageWriter.writePixel(x, y, (int)color << 16);
+                imageWriter.writePixel(x, y, color);
                 //imageWriter.writePixel(x, y, 255, 255, 255);
             }
 
@@ -41,8 +44,7 @@ public class Main {
         System.out.println("Elapsed time: " + elapsedTime + "ms");
     }
 
-    public static int getColor(int ix, int iy) {
-        int maxIterations = 25;
+    public static int getColor(int ix, int iy, int maxIterations) {
         double bound = 2;
 
         double x = ix;
@@ -58,9 +60,9 @@ public class Main {
         double y0 = y;
 
         for (int t = 0; t < maxIterations; t++) {
-            if (Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) > bound) {
+            if (Math.pow(x, 2) + Math.pow(y, 2) > Math.pow(bound, 2)) {
                 //return (255 << 16) | (255 << 8) | 255;
-                return t;
+                return (int)(t * (255 / (float)maxIterations));
             }
 
             double x1 = x;
@@ -74,6 +76,6 @@ public class Main {
         }
 
         //return 0;
-        return maxIterations;
+        return 255;
     }
 }
